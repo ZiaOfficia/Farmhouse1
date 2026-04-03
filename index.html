@@ -17,7 +17,9 @@
         --deep: #0b1f10;
         --forest: #1c5c38;
         --teal: #0e9b87;
-        --gold: #c8921a;
+        --gold: #d4821a;
+        --mango: #ff9500;
+        --mango-warm: #ffb347;
         --light: #fafaf5;
       }
       * {
@@ -99,7 +101,7 @@
       .hero-dot.on {
         width: 28px;
         border-radius: 4px;
-        background: #0e9b87;
+        background: var(--mango);
       }
 
       /* MARQUEE */
@@ -377,8 +379,8 @@
       /* SCROLL TOP */
       #st {
         position: fixed;
-        bottom: 6rem;
-        left: 1rem;
+        bottom: 4rem;
+        right: 1rem;
         width: 42px;
         height: 42px;
         background: var(--forest);
@@ -414,13 +416,7 @@
       #modal.show {
         display: flex;
       }
-      @media (max-width: 768px) {
-        #modal {
-          justify-content: flex-start;
-          padding-left: 2rem;
-          padding-right: 1rem;
-        }
-      }
+
       html,
       body {
         margin: 0;
@@ -498,9 +494,164 @@
       .fu4 {
         animation: fadeUp 0.85s 0.55s both;
       }
+
+      /* ── MANGO PRELOADER ── */
+      #mango-preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(ellipse at center, #0f2914 0%, #071509 70%);
+        transition: opacity 0.85s ease, visibility 0.85s ease;
+      }
+      #mango-preloader.mgl-out {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .mgl-ripple-wrap {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .mgl-ripple {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255, 149, 0, 0.22);
+        animation: mgl-ripple 2.6s ease-out infinite;
+      }
+      .mgl-ripple:nth-child(2) { animation-delay: 0.87s; }
+      .mgl-ripple:nth-child(3) { animation-delay: 1.74s; }
+      @keyframes mgl-ripple {
+        0%   { transform: scale(0.5); opacity: 0.7; }
+        100% { transform: scale(2); opacity: 0; }
+      }
+      .mgl-fruit {
+        width: 88px;
+        height: 108px;
+        position: relative;
+        z-index: 1;
+        animation: mgl-rise 1s ease-out both, mgl-bob 3.2s 1.1s ease-in-out infinite;
+        filter: drop-shadow(0 14px 32px rgba(255, 120, 0, 0.45));
+      }
+      @keyframes mgl-rise {
+        from { opacity: 0; transform: translateY(32px) scale(0.72); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @keyframes mgl-bob {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-11px); }
+      }
+      .mgl-name {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 1.3rem;
+        color: #fff;
+        text-align: center;
+        margin-top: 1.5rem;
+        letter-spacing: 0.04em;
+        animation: fadeUp 0.8s 0.5s both;
+      }
+      .mgl-sub {
+        font-family: "Dancing Script", cursive;
+        font-size: 0.95rem;
+        color: rgba(255, 165, 60, 0.82);
+        margin-top: 0.3rem;
+        letter-spacing: 0.05em;
+        animation: fadeUp 0.8s 0.72s both;
+      }
+      .mgl-dots {
+        display: flex;
+        gap: 7px;
+        margin-top: 1.1rem;
+        animation: fadeUp 0.8s 1s both;
+      }
+      .mgl-dots span {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--mango);
+        animation: mgl-dot 1.4s ease-in-out infinite;
+      }
+      .mgl-dots span:nth-child(2) { animation-delay: 0.22s; }
+      .mgl-dots span:nth-child(3) { animation-delay: 0.44s; }
+      @keyframes mgl-dot {
+        0%, 80%, 100% { opacity: 0.25; transform: scale(0.7); }
+        40%           { opacity: 1;    transform: scale(1.35); }
+      }
+    </style>
+
+    <style>
+      #modal {
+        position: fixed;
+        inset: 0;
+        z-index: 400;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      #modal.show {
+        display: flex;
+      }
+
+      #modal > div {
+        height: auto;
+        max-height: 100vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
     </style>
   </head>
   <body class="overflow-x-hidden">
+
+    <!-- ═══════ MANGO PRELOADER ═══════ -->
+    <div id="mango-preloader">
+      <div class="mgl-ripple-wrap">
+        <div class="mgl-ripple"></div>
+        <div class="mgl-ripple"></div>
+        <div class="mgl-ripple"></div>
+        <svg class="mgl-fruit" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="mg1" x1="18%" y1="0%" x2="82%" y2="100%">
+              <stop offset="0%"   stop-color="#FFE030"/>
+              <stop offset="48%"  stop-color="#FF9500"/>
+              <stop offset="100%" stop-color="#C05F0E"/>
+            </linearGradient>
+            <radialGradient id="mg2" cx="32%" cy="26%" r="56%">
+              <stop offset="0%"   stop-color="rgba(255,255,255,0.28)"/>
+              <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+            </radialGradient>
+          </defs>
+          <!-- Mango body -->
+          <path d="M50,18 C27,18 12,40 12,67 C12,93 29,115 50,118 C71,115 88,93 88,67 C88,40 73,18 50,18Z" fill="url(#mg1)"/>
+          <!-- Shine -->
+          <path d="M50,18 C27,18 12,40 12,67 C12,93 29,115 50,118 C71,115 88,93 88,67 C88,40 73,18 50,18Z" fill="url(#mg2)"/>
+          <!-- Stem -->
+          <path d="M50,18 Q51,8 57,4 Q53,9 50,18Z" fill="#4a8a52"/>
+          <!-- Leaf -->
+          <path d="M54,11 Q70,1 82,7 Q69,8 54,11Z" fill="#5a9e60"/>
+          <path d="M54,11 Q69,8 82,7 Q72,13 54,11Z" fill="#3a7042" opacity="0.55"/>
+          <!-- Highlight -->
+          <ellipse cx="37" cy="52" rx="7" ry="14" fill="rgba(255,255,255,0.13)" transform="rotate(-16,37,52)"/>
+        </svg>
+      </div>
+      <p class="mgl-name">Shahla Nafees Farmhouse</p>
+      <p class="mgl-sub">near the mango groves</p>
+      <div class="mgl-dots"><span></span><span></span><span></span></div>
+    </div>
+
     <!-- ═══════ NAV ═══════ -->
     <nav id="nav" class="fixed top-0 w-full z-50 bg-transparent text-white">
       <div
@@ -578,6 +729,28 @@
       id="home"
       class="relative min-h-screen flex items-center overflow-hidden"
     >
+      <!-- Mango grove decorative leaves (top-right corner) -->
+      <div style="position:absolute;top:0;right:0;z-index:2;pointer-events:none;opacity:0.18;" aria-hidden="true">
+        <svg width="220" height="200" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Large leaf 1 -->
+          <ellipse cx="170" cy="30" rx="55" ry="18" fill="#7ec85a" transform="rotate(-35,170,30)"/>
+          <line x1="140" y1="52" x2="200" y2="10" stroke="#5a9e3a" stroke-width="1.5" opacity="0.7"/>
+          <!-- Large leaf 2 -->
+          <ellipse cx="200" cy="80" rx="50" ry="15" fill="#6ab84a" transform="rotate(-55,200,80)"/>
+          <line x1="175" y1="96" x2="225" y2="64" stroke="#4a8a32" stroke-width="1.5" opacity="0.7"/>
+          <!-- Small mango fruit -->
+          <ellipse cx="152" cy="68" rx="14" ry="18" fill="#FF9500" opacity="0.85"/>
+          <ellipse cx="152" cy="68" rx="14" ry="18" fill="url(#hmg)" opacity="0.6"/>
+          <path d="M152,50 Q153,43 157,40 Q154,45 152,50Z" fill="#4a8a52"/>
+          <defs>
+            <radialGradient id="hmg" cx="35%" cy="30%" r="55%">
+              <stop offset="0%" stop-color="rgba(255,220,50,0.6)"/>
+              <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+
       <!-- Slides (background-image set inline) -->
       <div
         class="hslide on"
@@ -737,22 +910,29 @@
             </p>
           </div>
           <div class="p-5 md:p-7">
-            <form class="space-y-3.5">
+            <form id="leadForm" class="space-y-3.5">
               <div class="fg">
-                <input type="text" class="fi" placeholder=" " required /><label
-                  class="fl"
-                  >Full Name</label
-                >
+                <input
+                  name="name"
+                  type="text"
+                  class="fi"
+                  placeholder=" "
+                  required
+                /><label class="fl">Full Name</label>
               </div>
               <div class="fg">
-                <input type="tel" class="fi" placeholder=" " required /><label
-                  class="fl"
-                  >Phone Number</label
-                >
+                <input
+                  name="phone"
+                  type="tel"
+                  class="fi"
+                  placeholder=" "
+                  required
+                /><label class="fl">Phone Number</label>
               </div>
               <div class="grid grid-cols-2 gap-3">
                 <div class="fg">
                   <input
+                    name="date"
                     type="date"
                     class="fi"
                     placeholder=" "
@@ -760,7 +940,7 @@
                   /><label class="fl">Visit Date</label>
                 </div>
                 <div class="fg">
-                  <select class="fi appearance-none">
+                  <select name="guests" class="fi appearance-none">
                     <option value="" disabled selected hidden></option>
                     <option>Up to 10 Guests</option>
                     <option>11–20 Guests</option>
@@ -771,6 +951,7 @@
               </div>
               <div class="fg">
                 <textarea
+                  name="message"
                   class="fi pt-5 h-16 md:h-20 resize-none"
                   placeholder=" "
                 ></textarea
@@ -2375,6 +2556,8 @@
             90deg,
             var(--forest),
             var(--teal),
+            var(--mango),
+            var(--teal),
             var(--forest)
           );
         "
@@ -2466,7 +2649,7 @@
             >
               Reply within 24 hrs
             </p>
-            <form class="space-y-3.5">
+            <form id="leadForm" class="space-y-3.5">
               <div class="grid grid-cols-2 gap-3">
                 <div class="fg">
                   <input
@@ -2663,7 +2846,7 @@
     </div>
 
     <!-- ═══════ ENQUIRY MODAL ═══════ -->
-    <div id="modal">
+    <!-- <div id="modal">
       <div
         class="absolute inset-0 bg-black/65 backdrop-blur-sm"
         onclick="closeModal()"
@@ -2736,20 +2919,24 @@
                 <div class="fg">
                   <input
                     type="text"
+                    name="name"
                     class="fi"
                     placeholder=" "
                     required
                   /><label class="fl">Full Name</label>
                 </div>
                 <div class="fg">
-                  <input type="tel" class="fi" placeholder=" " required /><label
-                    class="fl"
-                    >Phone</label
-                  >
+                  <input
+                    name="phone"
+                    type="tel"
+                    class="fi"
+                    placeholder=" "
+                    required
+                  /><label class="fl">Phone</label>
                 </div>
               </div>
               <div class="fg">
-                <select class="fi appearance-none" required>
+                <select name="guests" class="fi appearance-none" required>
                   <option value="" disabled selected></option>
                   <option>Day Booking</option>
                   <option>Group Event</option>
@@ -2804,6 +2991,173 @@
               <button
                 onclick="closeModal()"
                 class="font-bold uppercase tracking-widest text-xs border-b pb-0.5"
+                style="color: var(--forest); border-color: var(--forest)"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div
+      id="modal"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+    >
+      <div
+        class="absolute inset-0 bg-black/65 backdrop-blur-sm"
+        onclick="closeModal()"
+      ></div>
+
+      <!-- Modal Box: Removed fixed min-h and adjusted spacing -->
+      <div
+        class="relative bg-[#F8F5F0] w-full max-w-xs md:max-w-2xl rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300"
+        id="mbox"
+      >
+        <div class="flex flex-col md:flex-row">
+          <!-- Left Sidebar (Image) -->
+          <div
+            class="hidden md:flex w-[40%] relative overflow-hidden bg-emerald-950"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=800"
+              alt="Pool"
+              class="absolute inset-0 w-full h-full object-cover opacity-40"
+            />
+            <div
+              class="relative p-8 text-white h-full flex flex-col justify-end"
+            >
+              <h3 class="serif text-2xl italic mb-3">Plan Your Visit</h3>
+              <p class="text-xs leading-relaxed mb-6 opacity-70">
+                Our team will help you plan the perfect day.
+              </p>
+              <div
+                class="text-[10px] font-bold uppercase tracking-widest space-y-2"
+                style="color: #6ee7b7"
+              >
+                <p>📍 Lucknow, U.P.</p>
+                <p>📞 +91 63061 60270</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Content (Form) -->
+          <div class="flex-1 p-6 md:p-10">
+            <button
+              onclick="closeModal()"
+              class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition w-8 h-8 flex items-center justify-center"
+            >
+              <svg
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            <h2
+              class="serif text-2xl md:text-3xl font-semibold mb-1"
+              style="color: var(--deep)"
+            >
+              Make an Enquiry
+            </h2>
+            <p
+              class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-6 font-bold"
+            >
+              Shahla Nafees Farmhouse
+            </p>
+
+            <form id="popupForm" class="space-y-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="fg">
+                  <input
+                    type="text"
+                    name="name"
+                    class="fi"
+                    placeholder=" "
+                    required
+                  />
+                  <label class="fl">Full Name</label>
+                </div>
+                <div class="fg">
+                  <input
+                    name="phone"
+                    type="tel"
+                    class="fi"
+                    placeholder=" "
+                    required
+                  />
+                  <label class="fl">Phone</label>
+                </div>
+              </div>
+
+              <div class="fg">
+                <select name="guests" class="fi appearance-none" required>
+                  <option value="" disabled selected></option>
+                  <option>Day Booking</option>
+                  <option>Group Event</option>
+                  <option>Birthday Party</option>
+                </select>
+                <label class="fl">Purpose</label>
+              </div>
+
+              <div class="fg">
+                <textarea
+                  name="message"
+                  class="fi h-24 pt-7 resize-none"
+                  placeholder=" "
+                  required
+                ></textarea>
+                <label class="fl">Message</label>
+              </div>
+
+              <button
+                type="submit"
+                class="w-full text-white font-bold py-4 rounded-xl uppercase tracking-[0.2em] text-[11px] shadow-lg transition-all hover:brightness-110 active:scale-[0.98]"
+                style="background: var(--forest)"
+              >
+                Send Message
+              </button>
+            </form>
+
+            <!-- Success State Overlay -->
+            <div
+              id="successMsg"
+              class="hidden absolute inset-0 bg-[#F8F5F0] flex flex-col items-center justify-center text-center p-8 z-10"
+            >
+              <div
+                class="w-16 h-16 rounded-full flex items-center justify-center mb-4 bg-green-100"
+              >
+                <svg
+                  class="h-8 w-8 text-green-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <h3 class="serif text-2xl mb-1" style="color: var(--deep)">
+                Message Sent!
+              </h3>
+              <p class="text-gray-400 text-sm mb-6">
+                We'll reply within 24 hours.
+              </p>
+              <button
+                onclick="closeModal()"
+                class="font-bold uppercase tracking-widest text-xs border-b-2 pb-0.5"
                 style="color: var(--forest); border-color: var(--forest)"
               >
                 Close
@@ -3032,7 +3386,24 @@
           document.getElementById("successMsg").classList.add("hidden");
         }, 300);
       }
-      window.addEventListener("load", () => setTimeout(openModal, 2500));
+      // ── MANGO PRELOADER DISMISS ──
+      (function () {
+        const pl = document.getElementById("mango-preloader");
+        if (!pl) return;
+        document.body.style.overflow = "hidden";
+        function hidePl() {
+          pl.classList.add("mgl-out");
+          document.body.style.overflow = "";
+          setTimeout(() => pl.remove(), 900);
+        }
+        if (document.readyState === "complete") {
+          setTimeout(hidePl, 1900);
+        } else {
+          window.addEventListener("load", () => setTimeout(hidePl, 1900));
+        }
+      })();
+
+      window.addEventListener("load", () => setTimeout(openModal, 3200));
       document
         .getElementById("popupForm")
         .addEventListener("submit", function (e) {
@@ -3048,5 +3419,48 @@
           }, 1400);
         });
     </script>
+
+    <script>
+      const scriptURL =
+        "https://script.google.com/macros/s/AKfycbxSAfHeC_z_irUoZGGmFNcIsAa4wXc5iwVjBDjpolWUrPlteF3dkfdYyLECtPLl7BmRkQ/exec";
+
+      document.querySelectorAll("form").forEach((form) => {
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          fetch(scriptURL, {
+            method: "POST",
+            body: new FormData(form),
+          })
+            .then(() => {
+              alert("Thank you! Our team will contact you.");
+              form.reset();
+            })
+            .catch((err) => console.log(err));
+        });
+      });
+    </script>
+    <!-- <script>
+      const scriptURL =
+        "https://script.google.com/macros/s/AKfycbxSAfHeC_z_irUoZGGmFNcIsAa4wXc5iwVjBDjpolWUrPlteF3dkfdYyLECtPLl7BmRkQ/exec";
+
+      const form = document.getElementById("leadForm");
+
+      if (form) {
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          fetch(scriptURL, {
+            method: "POST",
+            body: new FormData(form),
+          })
+            .then(() => {
+              alert("Thank you! Our team will contact you.");
+              form.reset();
+            })
+            .catch((err) => console.log(err));
+        });
+      }
+    </script> -->
   </body>
 </html>
